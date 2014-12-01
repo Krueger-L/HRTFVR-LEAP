@@ -135,77 +135,77 @@ void LeapListener::onFrame(const Controller& controller) {
 		switch (gesture.type()) {
 		case Gesture::TYPE_CIRCLE:
 		{
-									 CircleGesture circle = gesture;
-									 std::string clockwiseness;
+			 CircleGesture circle = gesture;
+			 std::string clockwiseness;
 
-									 if (circle.pointable().direction().angleTo(circle.normal()) <= PI / 2) {
-										 clockwiseness = "clockwise";
-									 }
-									 else {
-										 clockwiseness = "counterclockwise";
-									 }
+			 if (circle.pointable().direction().angleTo(circle.normal()) <= PI / 2) {
+				 clockwiseness = "clockwise";
+			 }
+			 else {
+				 clockwiseness = "counterclockwise";
+			 }
 
-									 // Calculate angle swept since last frame
-									 float sweptAngle = 0;
-									 if (circle.state() != Gesture::STATE_START) {
-										 CircleGesture previousUpdate = CircleGesture(controller.frame(1).gesture(circle.id()));
-										 sweptAngle = (circle.progress() - previousUpdate.progress()) * 2 * PI;
-									 }
-									 float update = fmod(circle.progress(), 1);
-									 if ((circle.isValid()) && (update<0.2) && (g_circle_loops_allowed) && (circle.radius()>40)){
+			 // Calculate angle swept since last frame
+			 float sweptAngle = 0;
+			 if (circle.state() != Gesture::STATE_START) {
+				 CircleGesture previousUpdate = CircleGesture(controller.frame(1).gesture(circle.id()));
+				 sweptAngle = (circle.progress() - previousUpdate.progress()) * 2 * PI;
+			 }
+			 float update = fmod(circle.progress(), 1);
+			 if ((circle.isValid()) && (update<0.2) && (g_circle_loops_allowed) && (circle.radius()>40)){
 
-										 g_circle_loops_allowed = false;
-										 std::cout << std::string(2, ' ')
-											 << "Circle id: " << gesture.id()
-											 << ", state: " << stateNames[gesture.state()]
-											 << ", progress: " << circle.progress()
-											 << ", radius: " << circle.radius()
-											 << ", angle " << sweptAngle * RAD_TO_DEG
-											 << ", update: " << update
-											 << ", " << clockwiseness << std::endl;
+				 g_circle_loops_allowed = false;
+				 std::cout << std::string(2, ' ')
+					 << "Circle id: " << gesture.id()
+					 << ", state: " << stateNames[gesture.state()]
+					 << ", progress: " << circle.progress()
+					 << ", radius: " << circle.radius()
+					 << ", angle " << sweptAngle * RAD_TO_DEG
+					 << ", update: " << update
+					 << ", " << clockwiseness << std::endl;
 
-									 }
-									 if ((update >= 0.2) && (g_circle_loops_allowed == false)){
-										 g_circle_loops_allowed = true;
-									 }
-									 break;
+			 }
+			 if ((update >= 0.2) && (g_circle_loops_allowed == false)){
+				 g_circle_loops_allowed = true;
+			 }
+			 break;
 		}
 		case Gesture::TYPE_SWIPE:
 		{
-									SwipeGesture swipe = gesture;
-									if ((g_swipe_allowed) && (swipe.isValid()) && (swipe.state() == Gesture::STATE_STOP)){
-										std::cout << std::string(2, ' ')
-											<< "Swipe id: " << gesture.id()
-											<< ", state: " << stateNames[gesture.state()]
-											<< ", direction: " << swipe.direction()
-											<< ", speed: " << swipe.speed() << std::endl;
-										g_swipe_allowed = false;
-									}
-									if (swipe.state() == Gesture::STATE_START){
-										g_swipe_allowed = true;
-									}
+			SwipeGesture swipe = gesture;
+			if ((g_swipe_allowed) && (swipe.isValid()) && (swipe.state() == Gesture::STATE_STOP)){
+				std::cout << std::string(2, ' ')
+					<< "Swipe id: " << gesture.id()
+					<< ", state: " << stateNames[gesture.state()]
+					<< ", direction: " << swipe.direction()
+					<< ", speed: " << swipe.speed() << std::endl;
+				g_swipe_allowed = false;
+			}
+			if (swipe.state() == Gesture::STATE_START){
+				g_swipe_allowed = true;
+			}
 
-									break;
+			break;
 		}
 		case Gesture::TYPE_KEY_TAP:
 		{
-									  KeyTapGesture tap = gesture;
-									  //std::cout << std::string(2, ' ')
-									  //  << "Key Tap id: " << gesture.id()
-									  //  << ", state: " << stateNames[gesture.state()]
-									  //  << ", position: " << tap.position()
-									  //  << ", direction: " << tap.direction()<< std::endl;
-									  break;
+			  KeyTapGesture tap = gesture;
+			  //std::cout << std::string(2, ' ')
+				  //  << "Key Tap id: " << gesture.id()
+				  //  << ", state: " << stateNames[gesture.state()]
+				  //  << ", position: " << tap.position()
+				  //  << ", direction: " << tap.direction()<< std::endl;
+			  break;
 		}
 		case Gesture::TYPE_SCREEN_TAP:
 		{
-										 ScreenTapGesture screentap = gesture;
-										 //std::cout << std::string(2, ' ')
-										 //  << "Screen Tap id: " << gesture.id()
-										 //  << ", state: " << stateNames[gesture.state()]
-										 //  << ", position: " << screentap.position()
-										 //  << ", direction: " << screentap.direction()<< std::endl;
-										 break;
+			 ScreenTapGesture screentap = gesture;
+			 //std::cout << std::string(2, ' ')
+				 //  << "Screen Tap id: " << gesture.id()
+				 //  << ", state: " << stateNames[gesture.state()]
+				 //  << ", position: " << screentap.position()
+				 //  << ", direction: " << screentap.direction()<< std::endl;
+			 break;
 		}
 		default:
 			//std::cout << std::string(2, ' ')  << "Unknown gesture type." << std::endl;
