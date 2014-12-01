@@ -119,7 +119,7 @@ void LeapListener::onFrame(const Controller& controller) {
 			const Finger finger = *fl;
 			if (finger.isExtended()) extendedFingers++;
 		}
-		if (hand.isValid() && extendedFingers<2){
+		if (hand.isValid() && extendedFingers<1){
 			std::cout << "Grab" << std::endl;
 			//std::cout <<  std::String(2, ' ')
 			//	<< "Grab "
